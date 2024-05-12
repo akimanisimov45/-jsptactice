@@ -1,0 +1,34 @@
+function nodeChildCount(node, deep = Infinity) {
+    let count = 0;
+
+    function traverse(node, currentDepth) {
+        if (currentDepth > deep) {
+            return;
+        }
+
+        count++;
+
+        if (node.childNodes.length === 0 || currentDepth === deep) {
+            return;
+        }
+
+        for (let childNode of node.childNodes) {
+            traverse(childNode, currentDepth + 1);
+        }
+    }
+
+    traverse(node, 0);
+
+    return count - 1; // вычитаем 1, чтобы не учитывать сам переданный узел
+}
+
+
+const div = document.createElement('div');
+const p = document.createElement('p');
+const span = document.createElement('span');
+p.appendChild(span);
+div.appendChild(p);
+
+document.write(nodeChildCount(div)); 
+document.write(nodeChildCount(div, 1)); 
+document.write(nodeChildCount(div, 2)); 
