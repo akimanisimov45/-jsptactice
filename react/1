@@ -1,0 +1,51 @@
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+
+function MyModal({ open, disableGlobalScroll, children }) {
+  const [modalRoot, setModalRoot] = useState(null);
+
+  useEffect(() => {
+    const modalRootDiv = document.createElement('div');
+    document.body.appendChild(modalRootDiv);
+    setModalRoot(modalRootDiv);
+
+    return () => {
+      document.body.removeChild(modalRootDiv);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (disableGlobalScroll && open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [open, disableGlobalScroll]);
+
+  if (!modalRoot || !open) return null;
+
+  return ReactDOM.createPortal(
+    <div className="modal-overlay">
+      <div className="modal-content">{children}</div>
+    </div>,
+    modalRoot
+  );
+}
+
+function SomeComponent() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <MyModal open={open} disableGlobalScroll={true}>
+        <div>
+          <h1>Some content</h1>
+          <button onClick={() => setOpen(false)}>Close</button>
+        </div>
+      </MyModal>
+    </div>
+  );
+}
+
+export default SomeComponent;
