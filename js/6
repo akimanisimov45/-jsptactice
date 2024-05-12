@@ -1,0 +1,34 @@
+function findAndMultiply(matrix) {
+    let min = matrix[0][0];
+    for (let row of matrix) {
+        for (let value of row) {
+            if (value < min) {
+                min = value;
+            }
+        }
+    }
+
+    const result = [];
+    for (let row of matrix) {
+        const newRow = [];
+        for (let value of row) {
+            if (value % 2 !== 0) {
+                newRow.push(value * min);
+            } else {
+                newRow.push(value);
+            }
+        }
+        result.push(newRow);
+    }
+
+    return result;
+}
+
+const matrix = [
+    [5, 3, 6],
+    [7, 11, 2],
+    [15, 9, 4]
+];
+
+const resultMatrix = findAndMultiply(matrix);
+document.write(resultMatrix);
