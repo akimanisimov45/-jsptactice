@@ -1,0 +1,34 @@
+// Модель "Товар"
+model Product {
+  id     Int      @id @default(autoincrement())
+  sku    String   @unique
+  title  String
+  stocks Stock[]
+  categories Category[]
+}
+
+// Модель "Склад"
+model Warehouse {
+  id     Int      @id @default(autoincrement())
+  uuid   String   @unique
+  title  String
+  stocks Stock[]
+}
+
+// Модель "Категорія товара"
+model Category {
+  id      Int      @id @default(autoincrement())
+  slug    String   @unique
+  title   String
+  products Product[]
+}
+
+// Модель "Наявність товара на складі"
+model Stock {
+  id         Int       @id @default(autoincrement())
+  quantity   Int
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  Int
+  warehouse  Warehouse @relation(fields: [warehouseId], references: [id])
+  warehouseId Int
+}
