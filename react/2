@@ -1,0 +1,33 @@
+import React, { useState } from 'react';
+
+function CensoredText({ badWords, children }) {
+  const [censored, setCensored] = useState(true);
+
+  const handleClick = (word) => {
+    setCensored(!censored);
+  };
+
+  const censoredWords = new RegExp(badWords.join('|'), 'gi');
+  const censoredText = children.replace(censoredWords, (match) =>
+    censored ? '*'.repeat(match.length) : match
+  );
+
+  return (
+    <span>
+      {censoredText.split(' ').map((word, index) => (
+        <span key={index} onClick={() => handleClick(word)}>
+          {word}{' '}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function SomeComponent() {
+  const badWords = ['test', 'someBadWord'];
+  const someText = 'Very long text who containts someBadWord and testWord';
+
+  return <CensoredText badWords={badWords}>{someText}</CensoredText>;
+}
+
+export default SomeComponent;
