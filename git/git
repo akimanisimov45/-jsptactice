@@ -1,1 +1,9 @@
-
+Щоб отримати останні зміни введемо команду
+git fetch origin
+Далі перейдемо на потрубну нам гілку
+git checkout task_4
+Далі оновимо гілку до стану dev 
+git merge origin/dev
+Після цього збережемо та закомітимо зміни
+git add .
+git commit -m "Merge changes from dev into task_4"
